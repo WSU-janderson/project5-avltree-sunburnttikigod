@@ -3,14 +3,36 @@
 #include <string>
 
 size_t AVLTree::AVLNode::numChildren() const {
-    return 0;
+
+    childCount =+ findChild(current->right);
+    childCount =+ findChild(current->left);
+    return childCount;
+}
+
+size_t AVLTree::AVLNode::findChild(AVLNode* sideChildptr){
+    size_t childAdder = new size_t*;
+    sideChildptr != nullptr ? childAdder = 1 : childAdder = 0;
+    findChild(sideChildptr);
+return childAdder;
 }
 
 bool AVLTree::AVLNode::isLeaf() const {
+    if (numChildren() == 0) {
+        return true;
+    }
     return false;
 }
 
 size_t AVLTree::AVLNode::getHeight() const {
+    while (findChild(current->left) != 0) {
+        height++;
+        if (current right != nullptr) {
+            height++;
+            current = current->right;
+        }
+        current = current->left;
+    }
+    size_t leftHeight = height;
     return 0;
 }
 
@@ -22,7 +44,6 @@ bool AVLTree::removeNode(AVLNode*& current){
     AVLNode* toDelete = current;
     auto nChildren = current->numChildren();
     if (current->isLeaf()) {
-        // case 1 we can delete the node
         current = nullptr;
     } else if (current->numChildren() == 1) {
         // case 2 - replace current with its only child
