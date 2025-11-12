@@ -1,11 +1,12 @@
 #include "AVLTree.h"
 
+#include <memory>
 #include <string>
 
 size_t AVLTree::AVLNode::numChildren() const {
-
-    childCount =+ findChild(current->right);
-    childCount =+ findChild(current->left);
+    std:weak_ptr<AVLTree> childCount = ;
+    =+ findChild(this->right);
+    AVLNode::childCount =+ findChild(this->left);
     return childCount;
 }
 

@@ -20,7 +20,6 @@ protected:
         ValueType value;
         size_t height;
         size_t childCount;
-        bool familyIsTight = true;
         size_t currentNumChildren = 0;
 
         AVLNode* left;
