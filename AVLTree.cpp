@@ -8,13 +8,6 @@ return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ?
     // if is leaf return zero else if right exists and left exists, return 2 else return 1
 }
 
-size_t AVLTree::AVLNode::findChild(AVLNode* sideChildptr){
-    size_t childAdder = new size_t*;
-    sideChildptr != nullptr ? childAdder = 1 : childAdder = 0;
-    findChild(sideChildptr);
-return childAdder;
-}
-
 bool AVLTree::AVLNode::isLeaf() const {
     return (this->left == nullptr && this->right == nullptr);
 }

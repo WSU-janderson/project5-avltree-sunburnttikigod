@@ -41,7 +41,6 @@ protected:
         AVLNode* left;
         AVLNode* right;
 
-        size_t findChild(const AVLNode* sideChild) const;
         // 0, 1 or 2
         size_t numChildren() const;
         // true or false
