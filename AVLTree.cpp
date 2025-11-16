@@ -37,10 +37,9 @@ vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::str
 std::optional<size_t> AVLTree::get(const std::string &key) {
     //key in hand 🎶🎶skip the the node my darling🎵🎵
 
-        ValueType* nodeValue = nullptr;
-        AVLNode* hoppyNode;
-        hoppyNode = AVLTree::root;
 
+        AVLNode* hoppyNode = AVLTree::root;
+        ValueType nodeValue = hoppyNode->value;
 
         (hoppyNode->key != key && !hoppyNode->isLeaf() ?
             (key < hoppyNode->key ?
@@ -52,13 +51,6 @@ std::optional<size_t> AVLTree::get(const std::string &key) {
             return nodeValue;
         }else get(key);
     }
-
-        hoppyNode->value = returnValue;
-        : return hoppyNode->value;
-        get(key);
-    }
-
-}
 
 size_t AVLTree::size() const {
     return this->keys().size();
