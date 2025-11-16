@@ -1,11 +1,45 @@
+/***
+   * MY MY MY MY MY MY MY MY MY MY
+   * MY AVLTree.cpp [c source]  MY
+   * MY MY MY MY MY MY MY MY MY MY
+   * Created by
+   * ©️ĥª®Ł¡ē↴ ™️
+   * MMMMMM       MMMMMM UUUUUU   UUUUUU     SSSSSSSS      TTTTTTTT /T|\T /    ©️
+   *  MMMMMMM   MMMMMMM   UUUU     UUUU    SSSSS  SSSSS    TTTTTTTTTT/ T T_ T
+   *  MMMM MMM MMM MMMM   UUUU     UUUU   SSSSS     SSSS   TT    TTT  -X T\|
+   *  MMMM  MMMMM  MMMM   UUUU     UUUU    SSSS        S   T     TTT    L \ X
+   *  MMMM   MMM   MMMM   UUUU     UUUU   S    SSSSS    S        TTT   T T  L
+   *  MMMM         MMMM   UUUU     UUUU   SS       SSSS  S       TTT  T  /|  T|-
+   *  MMMM         MMMM   UUUU     UUUU   SSS      SSSSS         TTT    T - \  | -
+   *  MMMM         MMMM    UUUUUUUUUUU  SS SSSS   SSSSS         TTTTT     \Z||/-=__I
+   * MMMMMM       MMMMMM    UUUUUUUUU   S  S SSSSSSSS          TTTTTTTT  TX\_|_T[|_T
+   *
+   * 01000011 01101000 01100001 01110010 01101100 01100101 01110011
+   * 01001010 01101111 01110011 01100101 01110000 01101000
+   * 01001101 01110101 01110011 01110100
+   * AVLTree.cpp
+****/
+
 #include "AVLTree.h"
 
 #include <memory>
 #include <string>
 #include <vector>
 
+bool AVLTree::insert(const std::string &key, size_t value);
+
+vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+
+std::optional<size_t> AVLTree::get(const std::string &key) const;
+
+size_t &AVLTree::operator[](const std::string &key);
+
+bool AVLTree::contains(const std::string &key) const;
+
+std::optional<size_t> AVLTree::get(const std::string &key) const;
+
 size_t AVLTree::AVLNode::numChildren() const {
-return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
+    return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
     // if is leaf return zero else if right exists and left exists, return 2 else return 1
 }
 
@@ -16,16 +50,17 @@ bool AVLTree::AVLNode::isLeaf() const {
 size_t AVLTree::AVLNode::getHeight() const {
     return this->height;
 }
+
 vector<std::string> AVLTree::keys() const {
     return this->keyList;
 }
 
-bool AVLTree::removeNode(AVLNode*& current){
+bool AVLTree::removeNode(AVLNode *&current) {
     if (!current) {
         return false;
     }
 
-    AVLNode* toDelete = current;
+    AVLNode *toDelete = current;
     auto nChildren = current->numChildren();
     if (current->isLeaf()) {
         current = nullptr;
@@ -40,7 +75,7 @@ bool AVLTree::removeNode(AVLNode*& current){
         // case 3 - we have two children,
         // get smallest key in right subtree by
         // getting right child and go left until left is null
-        AVLNode* smallestInRight = current->right;
+        AVLNode *smallestInRight = current->right;
         // I could check if smallestInRight is null,
         // but it shouldn't be since the node has two children
         while (smallestInRight->left) {
@@ -74,17 +109,24 @@ void AVLTree::balanceNode(AVLNode *&node) {
     //larger than the target you stop at the target height for the branch and go fishing until you've got nothing left
     //to hook (null pointer) using inorder to count (left to right) and postorder(right to left) so it's one natural
     //traversal to balance, remove and insert as your operations for balancing.
-    AVLNode* highestNode;
+    AVLNode *highestNode;
 
     //this serves as the search function, holding on to the pointer for the most out of balance node (highest)
-    !node->isLeaf() ?
-        (node->getHeight() > highestNode->getHeight() ? highestNode = node :
-        (node->right ? node=node->right : node = node->left)):
+    !node->isLeaf()
+        ? (node->getHeight() > highestNode->getHeight()
+               ? highestNode = node
+               : (node->right ? node = node->right : node = node->left))
+        : els
+    else
+    if () {
+        //
+        //current!=lastRemovedNode ?
+        //      lastRemovedNode = current
+        //      insert(remove(lastRemovedNode) : insert(remove(N;
+    }
+    void operator=(const AVLTree &other);
 
-    els
-    else if (){
-    //
-    //current!=lastRemovedNode ?
-    //      lastRemovedNode = current
-    //      insert(remove(lastRemovedNode) : insert(remove(N;
+    ~AVLTree();
+
+    friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
 }
