@@ -29,15 +29,6 @@ class AVLTree {
 public:
     using KeyType = std::string;
     using ValueType = size_t;
-    vector<KeyType> keyList;
-
-    vector<KeyType> keys() const;
-    AVLTree(const AVLTree& other);
-    size_t size() const;
-    size_t getHeight() const;
-    void operator=(const AVLTree& other);
-    ~AVLTree();
-    friend std::ostream& operator<<(ostream& os, const AVLTree & avlTree);
 
 protected:
     class AVLNode {
@@ -46,30 +37,62 @@ protected:
         ValueType value;
         size_t height;
 
-        AVLNode* left;
-        AVLNode* right;
+        AVLNode *left;
+        AVLNode *right;
 
         // 0, 1 or 2
         size_t numChildren() const;
+
         // true or false
         bool isLeaf() const;
+
         // number of hops to deepest leaf node
         size_t getHeight() const;
     };
 
 public:
 
-    private:
-    AVLNode* root;
+private:
+    AVLNode *root;
+    vector<KeyType> keyList;
 
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
-    bool remove(AVLNode*& current, KeyType key);
-    // removeNode contains the logic for actually removing a node based on the numebr of children
-    bool removeNode(AVLNode*& current);
-    // You will implement this, but it is needed for removeNode()
-    void balanceNode(AVLNode*& node);
+    bool remove(AVLNode *&current, KeyType key);
 
+    // removeNode contains the logic for actually removing a node based on the numebr of children
+    bool removeNode(AVLNode *&current);
+
+    // You will implement this, but it is needed for removeNode()
+    void balanceNode(AVLNode *&node);
+
+    bool AVLTree::insert(const std::string &key, size_t value);
+
+    vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+
+    std::optional<size_t> AVLTree::get(const std::string &key) const;
+
+    size_t &AVLTree::operator[](const std::string &key);
+
+    bool AVLTree::contains(const std::string &key) const;
+
+    bool AVLTree::insert(const std::string &key, size_t value);
+
+    std::optional<size_t> AVLTree::get(const std::string &key) const;
+
+    vector<KeyType> keys() const;
+
+    AVLTree(const AVLTree &other);
+
+    size_t size() const;
+
+    size_t getHeight() const;
+
+    void operator=(const AVLTree &other);
+
+    ~AVLTree();
+
+    friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
 };
 
 #endif //AVLTREE_H

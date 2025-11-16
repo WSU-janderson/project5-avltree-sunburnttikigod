@@ -74,10 +74,12 @@ void AVLTree::balanceNode(AVLNode *&node) {
     //larger than the target you stop at the target height for the branch and go fishing until you've got nothing left
     //to hook (null pointer) using inorder to count (left to right) and postorder(right to left) so it's one natural
     //traversal to balance, remove and insert as your operations for balancing.
-    AVLNode* highestNode = node;
+    AVLNode* highestNode;
 
     //this serves as the search function, holding on to the pointer for the most out of balance node (highest)
-    highestNode->isLeaf() && node->getHeight() > highestNode->getHeight() ? highestNode = node :
+    !node->isLeaf() ?
+        (node->getHeight() > highestNode->getHeight() ? highestNode = node :
+        (node->right ? node=node->right : node = node->left)):
 
     els
     else if (){
