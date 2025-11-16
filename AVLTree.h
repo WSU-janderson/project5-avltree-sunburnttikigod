@@ -21,6 +21,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -28,6 +29,15 @@ class AVLTree {
 public:
     using KeyType = std::string;
     using ValueType = size_t;
+    vector<KeyType> keyList;
+
+    vector<KeyType> keys() const;
+    AVLTree(const AVLTree& other);
+    size_t size() const;
+    size_t getHeight() const;
+    void operator=(const AVLTree& other);
+    ~AVLTree();
+    friend std::ostream& operator<<(ostream& os, const AVLTree & avlTree);
 
 protected:
     class AVLNode {
@@ -35,8 +45,6 @@ protected:
         KeyType key;
         ValueType value;
         size_t height;
-        size_t childCount;
-        size_t currentNumChildren = 0;
 
         AVLNode* left;
         AVLNode* right;
@@ -47,8 +55,6 @@ protected:
         bool isLeaf() const;
         // number of hops to deepest leaf node
         size_t getHeight() const;
-
-
     };
 
 public:

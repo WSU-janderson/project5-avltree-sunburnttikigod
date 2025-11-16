@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 size_t AVLTree::AVLNode::numChildren() const {
 return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
@@ -14,6 +15,9 @@ bool AVLTree::AVLNode::isLeaf() const {
 
 size_t AVLTree::AVLNode::getHeight() const {
     return this->height;
+}
+vector<std::string> AVLTree::keys() const {
+    return this->keyList;
 }
 
 bool AVLTree::removeNode(AVLNode*& current){
@@ -69,5 +73,16 @@ void AVLTree::balanceNode(AVLNode *&node) {
     //height for each branch by using a root 2 on the size to get the target height. following this any branch that is
     //larger than the target you stop at the target height for the branch and go fishing until you've got nothing left
     //to hook (null pointer) using inorder to count (left to right) and postorder(right to left) so it's one natural
-    //traversal to balance, remove and insert as your operations for balancing.  insert(remove(Node));
+    //traversal to balance, remove and insert as your operations for balancing.
+    AVLNode* highestNode = node;
+
+    //this serves as the search function, holding on to the pointer for the most out of balance node (highest)
+    highestNode->isLeaf() && node->getHeight() > highestNode->getHeight() ? highestNode = node :
+
+    els
+    else if (){
+    //
+    //current!=lastRemovedNode ?
+    //      lastRemovedNode = current
+    //      insert(remove(lastRemovedNode) : insert(remove(N;
 }
