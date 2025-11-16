@@ -59,6 +59,7 @@ private:
     AVLNode *root;
     vector<KeyType> keyList;
     size_t maxBalancedHeight;
+
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode *&current, KeyType key);

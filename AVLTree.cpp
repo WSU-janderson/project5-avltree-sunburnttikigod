@@ -25,12 +25,38 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 
-bool AVLTree::insert(const std::string &key, size_t value);
+bool AVLTree::insert(const std::string &key, size_t value) {
+    AVLNode* nodeToInsert = new AVLNode(std::string key*&, value*&);
+}
 
 vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
 {}
-std::optional<size_t> AVLTree::get(const std::string &key) const {
+
+std::optional<size_t> AVLTree::get(const std::string &key) {
+    //key in hand 🎶🎶skip the the node my darling🎵🎵
+
+        ValueType* nodeValue = nullptr;
+        AVLNode* hoppyNode;
+        hoppyNode = AVLTree::root;
+
+
+        (hoppyNode->key != key && !hoppyNode->isLeaf() ?
+            (key < hoppyNode->key ?
+                (hoppyNode->left ? hoppyNode = hoppyNode->left : nodeValue = nullopt)
+                : (hoppyNode->right ? hoppyNode = hoppyNode->right : nodeValue = nullopt))
+            : hoppyNode->key == key ? nodeValue = hoppyNode->value : nodeValue = nullopt);
+
+        if (nodeValue != nullptr){
+            return nodeValue;
+        }else get(key);
+    }
+
+        hoppyNode->value = returnValue;
+        : return hoppyNode->value;
+        get(key);
+    }
 
 }
 
@@ -52,7 +78,7 @@ size_t AVLTree::getMaxBalancedHeight(){
 
 size_t &AVLTree::operator[](const std::string &key);
 
-bool AVLTree::contains(const std::string &key) const;
+bool AVLTree::contains(const std::string &key) const{}
 
 size_t AVLTree::AVLNode::numChildren() const {
     return (this->isLeaf() ? 0 : (this->right && this->left) ? 2 : 1);
