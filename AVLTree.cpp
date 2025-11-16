@@ -4,7 +4,7 @@
 #include <string>
 
 size_t AVLTree::AVLNode::numChildren() const {
-return (this->isLeaf() ? 0 : (this->right != nullptr && this-> left != nullptr) ? 2 : 1);
+return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
 }
 
 size_t AVLTree::AVLNode::findChild(AVLNode* sideChildptr){
