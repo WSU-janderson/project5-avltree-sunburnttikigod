@@ -18,23 +18,11 @@ return childAdder;
 }
 
 bool AVLTree::AVLNode::isLeaf() const {
-    if (numChildren() == 0) {
-        return true;
-    }
-    return false;
+    return (this->left == nullptr && this->right == nullptr);
 }
 
 size_t AVLTree::AVLNode::getHeight() const {
-    while (findChild(current->left) != 0) {
-        height++;
-        if (current right != nullptr) {
-            height++;
-            current = current->right;
-        }
-        current = current->left;
-    }
-    size_t leftHeight = height;
-    return 0;
+    return this->height;
 }
 
 bool AVLTree::removeNode(AVLNode*& current){

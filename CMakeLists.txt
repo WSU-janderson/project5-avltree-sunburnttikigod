@@ -8,4 +8,4 @@ add_executable(AVLTreeDebug
         AVLTree.cpp
         AVLTree.h
         FunctionTester.cpp
-        FunctionTester.h)
+)
