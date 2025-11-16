@@ -5,6 +5,7 @@
 
 size_t AVLTree::AVLNode::numChildren() const {
 return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
+    // if leaf return zero else if right exists and left exists, return 2 else return 1
 }
 
 size_t AVLTree::AVLNode::findChild(AVLNode* sideChildptr){
