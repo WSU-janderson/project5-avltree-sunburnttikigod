@@ -37,11 +37,18 @@ std::optional<size_t> AVLTree::get(const std::string &key) const {
 size_t AVLTree::size() const {
     return this->keys().size();
 }
-
-int AVLTree::getMaxBalancedHeight(){
-    AVLTree::maxBalancedHeight = ceil(sqrt(size()));;
-    return maxBalancedHeight;
-}
+//uses math.h log2(n) and ceil to round up to get the ideal max height of the tree
+size_t AVLTree::getMaxBalancedHeight(){
+    AVLTree::maxBalancedHeight = ceil(log2(size()));;  //line 2394 of cmath.h, because it's built in
+    return maxBalancedHeight;                               //but this was interesting in 2917 - 2920 some DR really
+}                                                           //wanted credit for it, i didn't think Euler new C++ lol
+                                                            /*   ------
+                                                            // DR 568.          <-this line specifically
+                                                            constexpr _Float32
+                                                            log2(_Float32 __x)
+                                                            { return __builtin_log2f(__x); }
+                                                            *  ------
+                                                            */
 
 size_t &AVLTree::operator[](const std::string &key);
 
