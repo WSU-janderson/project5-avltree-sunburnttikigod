@@ -59,9 +59,15 @@ bool AVLTree::removeNode(AVLNode*& current){
     return true;
 }
 
-bool AVLTree::remove(AVLNode *&current, KeyType key) {
+/*bool AVLTree::remove(AVLNode *&current, KeyType key) {
     return false;
-}
+}*/
 
 void AVLTree::balanceNode(AVLNode *&node) {
+    //Goin fishin
+    //I keep thinking that if i could use one complete traversal to count the size of the tree, I could then set a goal
+    //height for each branch by using a root 2 on the size to get the target height. following this any branch that is
+    //larger than the target you stop at the target height for the branch and go fishing until you've got nothing left
+    //to hook (null pointer) using in order to count (left to right) and post order(right to left) so it's one natural
+    //traversal to balance, remove and insert as your operations for balancing.  insert(remove(Node));
 }
