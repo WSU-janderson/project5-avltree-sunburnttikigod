@@ -24,6 +24,7 @@
 #define AVLTREE_H
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ public:
 private:
     AVLNode *root;
     vector<KeyType> keyList;
-
+    size_t maxBalancedHeight;
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode *&current, KeyType key);
@@ -85,6 +86,8 @@ private:
     AVLTree(const AVLTree &other);
 
     size_t size() const;
+
+    size_t getMaxBalancedHeight();
 
     size_t getHeight() const;
 

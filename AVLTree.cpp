@@ -29,22 +29,31 @@
 bool AVLTree::insert(const std::string &key, size_t value);
 
 vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+{}
+std::optional<size_t> AVLTree::get(const std::string &key) const {
 
-std::optional<size_t> AVLTree::get(const std::string &key) const;
+}
+
+size_t AVLTree::size() const {
+    return this->keys().size();
+}
+
+int AVLTree::getMaxBalancedHeight(){
+    AVLTree::maxBalancedHeight = ceil(sqrt(size()));;
+    return maxBalancedHeight;
+}
 
 size_t &AVLTree::operator[](const std::string &key);
 
 bool AVLTree::contains(const std::string &key) const;
 
-std::optional<size_t> AVLTree::get(const std::string &key) const;
-
 size_t AVLTree::AVLNode::numChildren() const {
-    return (this->isLeaf() ? 0 : (this->right != nullptr && this->left != nullptr) ? 2 : 1);
+    return (this->isLeaf() ? 0 : (this->right && this->left) ? 2 : 1);
     // if is leaf return zero else if right exists and left exists, return 2 else return 1
 }
 
 bool AVLTree::AVLNode::isLeaf() const {
-    return (this->left == nullptr && this->right == nullptr);
+    return (!this->left && !this->right);
 }
 
 size_t AVLTree::AVLNode::getHeight() const {
@@ -84,7 +93,12 @@ bool AVLTree::removeNode(AVLNode *&current) {
         std::string newKey = smallestInRight->key;
         int newValue = smallestInRight->value;
         remove(root, smallestInRight->key); // delete this one
-
+                //remove will start the thread from root with 'smallest in Right' key in hand
+                //hop down ask is greater or less than each node and respond accordingly left or right,
+                //to my understanding, return false if never found, so is removeNode supposed to be a
+                //public function with remove used under the hood as a privbate function
+                //here or should i just ignore those details, also with the vector representation available to
+                //us ...nvm
         current->key = newKey;
         current->value = newValue;
 
@@ -124,6 +138,8 @@ void AVLTree::balanceNode(AVLNode *&node) {
         //      lastRemovedNode = current
         //      insert(remove(lastRemovedNode) : insert(remove(N;
     }
+
+
     void operator=(const AVLTree &other);
 
     ~AVLTree();
