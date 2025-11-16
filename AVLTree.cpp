@@ -4,10 +4,7 @@
 #include <string>
 
 size_t AVLTree::AVLNode::numChildren() const {
-    std:weak_ptr<AVLTree> childCount = ;
-    =+ findChild(this->right);
-    AVLNode::childCount =+ findChild(this->left);
-    return childCount;
+return (this->isLeaf() ? 0 : (this->right != nullptr && this-> left != nullptr) ? 2 : 1);
 }
 
 size_t AVLTree::AVLNode::findChild(AVLNode* sideChildptr){
