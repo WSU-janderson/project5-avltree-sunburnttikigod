@@ -27,13 +27,14 @@
 #include <vector>
 #include <optional>
 
-/*My biggest hold up here was trying to figure out the recursive logic,
- *not the base case, but rather the initial check and creation of my tree and
- *travesal node I finally think i found the structure that works, did some rucursion practice
- *on coding bat, and remembered what one of the kids asked in class about
- *using a helper function for the recursion.  so I will verify my traveler and
- *create/assign if needed then isolate the recursion to it's own function, so
- *I don't have to worry about 'stacking' nodes
+/*
+ *  My biggest hold up here was trying to figure out the recursive logic,
+ *  not the base case, but rather the initial check and creation of my tree and
+ *  traversal node. I finally think  I found the structure that works, did some recursion practice
+ *  on coding bat, and remembered what one of the kids asked in class about
+ *  using a helper function for the recursion.  so I will verify my traveler and
+ *  create/assign if needed, then isolate the recursion to its own function, so
+ *  I don't have to worry about 'stacking' nodes
  *
  */
 
@@ -72,8 +73,11 @@ bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t
     balanceNode(nodeIn);
 }
 
-//now to redo this mess with the same technique i used with insert
-// i guess like a init and a recurse function
+/*
+ *  The 'findRange' function takes in two key parameters, high and low, then recursively traverses the
+ *  tree in order to find all values between the range created with the two values.
+ */
+
 
 vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
     vector<std::string> *rangeList = new vector<std::string>;
@@ -81,13 +85,26 @@ vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::str
     return *rangeList;
 }
 
-void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
+void rangingRecursively(AVLNode *ranger, std::string &lowKey,
                                  const std::string &highKey, vector<std::string> *&rangeList) {
     //base case -> if it's at the end of the branch !//HOPPING_NODE_NAME// then return
+
     if (!ranger) {
         return;
     } //if key is greater than fall right
-
+    // implementing this as the 'contains' function too
+    if (highKey==lowKey) {
+        bool contained = false;
+        if (ranger->key == lowKey) {
+            return rangeList->push_back("true");
+        }
+        //traversal logic
+        if (ranger->key > lowKey) {
+            rangingRecursively(ranger->left, lowKey, highKey, rangeList);
+        } else {
+            rangingRecursively(ranger->right, lowKey, highKey, rangeList);
+        }
+    }
     //if travelling node key is greater than lowKey add and higher than highKey
     if (ranger->key > lowKey && ranger->key < highKey) {
         rangeList->push_back(to_string(ranger->value)); //add it to the node list
@@ -96,9 +113,10 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
     if (ranger->key > lowKey) {
         rangingRecursively(ranger->left, lowKey, highKey, rangeList);
     } else if (ranger->key < highKey) {
-        rangingRecursively(ranger->left, lowKey, highKey, rangeList);
+        rangingRecursively(ranger->right, lowKey, highKey, rangeList);
     }
 }
+
 
 /*
  * 'get' retrieves the value held in a node that carries the key requested
@@ -164,6 +182,7 @@ log2(_Float32 __x)
 size_t &AVLTree::operator[](const std::string &key);
 
 bool AVLTree::contains(const std::string &key) const {
+    findRange(key, key);
 }
 
 size_t AVLTree::AVLNode::numChildren() const {
@@ -291,15 +310,13 @@ void AVLTree::rotateRight(AVLNode *&node) {
     node = newRoot;
 }
 
-void operator=(const AVLTree &other) {
+void AVLTree::operator=(const AVLTree &other) {
+    AVLNode* copyOfOther = new AVLNode&;
 }
 
-~AVLTree() {
-    Delete(getLeaf(root));
-}
+~AVLTree();
 
 AVLNode getLeaf(AVLTree::AVLNode *&node) {
-    if (!node->isLeaf()) {
         if (node->left = nullptr) {
             node = node->left;
             delete node;
@@ -308,5 +325,8 @@ AVLNode getLeaf(AVLTree::AVLNode *&node) {
 
         getleaf
 
-                friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
+                friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree) {
+
+        }
     }
+}
