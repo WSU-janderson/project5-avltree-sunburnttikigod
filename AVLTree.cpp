@@ -224,13 +224,42 @@ bool AVLTree::removeNode(AVLNode *&current) {
     return true;
 }
 
-/*bool AVLTree::remove(AVLNode *&current, KeyType key) {
+bool AVLTree::remove(AVLNode *&current, KeyType key) {
+
     return false;
-}*/
+}
+/*
+ *Taken from AVL slides:
+MM__________WW___________MM________WW______MM________WW
+||  Problem || Rotation  ||  Hook  || Hook || Single ||
+||  Balance || Direction ||  Node  || Bal  || Double ||
+||==========||===========||========||======||========||
+||    2     ||   Right   ||  Left  ||   1  || Single ||
+||    2     ||   Right   ||  Left  ||  -1  || Double ||
+||   -2     ||   Left    ||  Right ||  -1  || Single ||
+||   -2     ||   Left    ||  Right ||   1  || Double ||
+\\==========/\===========/\========/\======/\========//
+Source: https://pilot.wright.edu/d2l/le/content/760093/viewContent/5457997/View
+Author: Dr. James Anderson
+/*           |\    ↷       ✓✓✓✓✓✓✓✓
+ *          / ↱\(3) ↓     ✓✓✓✓(2)✓✓✓✓
+ *          \ ↑ /   ↓    ✓✓✓✓/✓✓✓\✓✓✓✓
+ *           ¿(2) ← ↵  ✓✓✓✓(1)✓✓✓(3)✓✓✓✓
+ *            /       ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+ *          (1)
+*/
+
+
 
 void AVLTree::balanceNode(AVLNode *&node) {
     int balance = getBalance(node);
-    AVLNode *highestNode;
+
+    if (balance > 1) {
+        if (getBalance(node->left)>0) {                 //
+            rotateLeft(node->left); //rotate left child left
+        }
+        rotateRight(node);
+    }
 
 
 
