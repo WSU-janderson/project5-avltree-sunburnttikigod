@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <optional>
 
 using namespace std;
 
@@ -81,11 +82,15 @@ private:
 
     std::optional<size_t> AVLTree::get(const std::string &key) const;
 
+    size_t getRecursively(AVLNode * right) const;
+
     size_t &AVLTree::operator[](const std::string &key);
 
     bool AVLTree::contains(const std::string &key) const;
 
     std::optional<size_t> AVLTree::get(const std::string &key) const;
+
+    std::optional<size_t> AVLTree::getRecursively(AVLNode* currentNode, const std::string &key) const;
 
     vector<KeyType> keys() const;
 

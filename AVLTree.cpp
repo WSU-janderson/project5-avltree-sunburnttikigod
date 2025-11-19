@@ -93,7 +93,7 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
         rangeList->push_back(ranger->value);      //add it to the node list
     }
     //traversal logic
-    if (ranger->key < lowKey) {
+    if (ranger->key > lowKey) {
         rangingRecursively(ranger->left,lowKey, highKey, rangeList);
     }
     else if (ranger->key < highKey) {
@@ -101,27 +101,44 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
     }
 }
 
+/*
+ * 'get' retrieves the value held in a node that carries the key requested
+ * using a recursive function that it calles with the root pointer and the
+ * requested key
+ */
 
 std::optional<size_t> AVLTree::get(const std::string &key) const {
-    //key in hand 🎶🎶skip the the node my darling🎵🎵
-    if (AVLNode *current = root; current == nullptr) {
-        current = root;
-    } else {
-        if (current->isLeaf()) {
-            return nullopt;
-        }
-        if (current->key == key) {
-            return current->value;
-        } else if (key < current->key && current->left != nullptr) {
-            current = current->left;
-            get(&key);
-        } else if (key > current->key && current->right != nullptr) {
-            current = current->right;
-            get(&key);
-        } else {
-            return nullopt;
-        }
+    return (getRecursively(root, key);
+}
+
+/*
+ * getRecursively is called as the recursive function for 'get'
+ * it will return 'nullopt' if a matching 'key' is not found
+ *    1.  first is one basecase => if the current node is null - return nullopt
+ *      * nullopt is an option only available when the return is std::optional
+ *      * 'optional' is included at the beginning
+ *    2. next is the second base case => the key was found - the currentNode returns it's 'value'
+ *    3. then if current node exists and is not empty, tree traversal logic
+ *      * if the requested key is less than current node key go left(lower)
+ *      * if the requested key is greater than the current node key go right(higher)
+ *          *no conditional because it's the only option left if it made it this far.
+*/
+
+std::optional<size_t> AVLTree::getRecursively(AVLNode *currentNode,
+    const std::string &key) const {
+    //base case one end of line not found
+    if (!currentNode) {
+        return nullopt;
     }
+    // base case two found node return value
+    if (currentNode->key == key){
+        return currentNode->value;
+    }
+    // not found continue tree traversal
+    if (key < currentNode->key) {
+        return getRecursively(currentNode->left, key);
+    }
+    return getRecursively(currentNode->right, key);
 }
 
 
