@@ -263,10 +263,10 @@ void AVLTree::balanceNode(AVLNode *&node) {
         }
         rotateRight(node);
     }
-    //if the left subtree is longer than the right
-    // perform a right rotation of current node after hooking
-    // the left child, if the left child's balance is
-    // greater than zero rotate left
+    //if the right subtree is longer than the left
+    // perform a left rotation of current node after hooking
+    // the right child, if the right child's balance is
+    // greater than less than negative one rotate right
     else if (balance < -1) {
         if (getBalance(node->right) > 0) {
             rotateRight(node->right); //rotate right child right
