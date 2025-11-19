@@ -77,8 +77,8 @@ private:
     */
     std::vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
 
-    void rangingRecursively(AVLNode *ranger,const std::string &lowKey,
-                                     const std::string &highKey, vector<std::string> *&rangeList);
+    void rangingRecursively(AVLNode *ranger, const std::string &lowKey,
+                            const std::string &highKey, vector<std::string> *&rangeList);
 
     /*
      *  get + its recursive helper declarations
@@ -115,7 +115,7 @@ private:
 
     bool contains(const std::string &key) const;
 
-    bool containerRecurse(const AVLNode& container,const std::string &key)const;
+    bool containerRecurse(const AVLNode &container, const std::string &key) const;
 
     vector<KeyType> keys() const;
 

@@ -226,9 +226,9 @@ bool AVLTree::removeNode(AVLNode *&current) {
 }
 
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
-
     return false;
 }
+
 /*
  *Taken from AVL slides:
 MM__________WW___________MM________WW______MM________WW
@@ -251,64 +251,62 @@ Author: Dr. James Anderson
 */
 
 void AVLTree::balanceNode(AVLNode *&node) {
-        int balance = getBalance(node);
+    int balance = getBalance(node);
 
-        //if the left subtree is longer than the right
-        // perform a right rotation of current node after hooking
-        // the left child, if the left child's balance is
-        // greater than zero rotate left
-        if (balance > 1) {
-
-                if (getBalance(node->left) > 0) {
-                    rotateLeft(node->left); //rotate left child left
-                }
-                rotateRight(node);
-            }
-            //if the left subtree is longer than the right
-            // perform a right rotation of current node after hooking
-            // the left child, if the left child's balance is
-            // greater than zero rotate left
-            else if (balance < -1) {
-                if (getBalance(node->right) > 0) {
-                    rotateRight(node->right); //rotate right child right
-                }
-                rotateLeft(node);
-            }
-
-            node->height = node->getHeight();
+    //if the left subtree is longer than the right
+    // perform a right rotation of current node after hooking
+    // the left child, if the left child's balance is
+    // greater than zero rotate left
+    if (balance > 1) {
+        if (getBalance(node->left) > 0) {
+            rotateLeft(node->left); //rotate left child left
         }
-
-    void AVLTree::rotateLeft(AVLNode *&node) {
-        AVLNode *newRoot = node->right;
-        node->right = newRoot->left;
-        newRoot->left = nullptr;
-        node = newRoot;
+        rotateRight(node);
+    }
+    //if the left subtree is longer than the right
+    // perform a right rotation of current node after hooking
+    // the left child, if the left child's balance is
+    // greater than zero rotate left
+    else if (balance < -1) {
+        if (getBalance(node->right) > 0) {
+            rotateRight(node->right); //rotate right child right
+        }
+        rotateLeft(node);
     }
 
-    void AVLTree::rotateRight(AVLNode *&node) {
-        AVLNode *newRoot = node->left;
-        node->left = newRoot->right;
-        newRoot->right = nullptr;
-        node = newRoot;
-    }
-
-    void operator=(const AVLTree &other);
-    {
-    }
-
-    ~AVLTree() {
-        Delete(getLeaf(root));
-    }
-
-    AVLNode getLeaf(AVLTree::AVLNode*& node){
-        if (!node->isLeaf()) {
-           if (node->left = nullptr) {
-               node = node->left;
-               delete node;
-               AVLTree::getLeaf(root);
-           }else node = node->right;
-
-getleaf
-
-    friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
+    node->height = node->getHeight();
 }
+
+void AVLTree::rotateLeft(AVLNode *&node) {
+    AVLNode *newRoot = node->right;
+    node->right = newRoot->left;
+    newRoot->left = nullptr;
+    node = newRoot;
+}
+
+void AVLTree::rotateRight(AVLNode *&node) {
+    AVLNode *newRoot = node->left;
+    node->left = newRoot->right;
+    newRoot->right = nullptr;
+    node = newRoot;
+}
+
+void operator=(const AVLTree &other) {
+}
+
+~AVLTree() {
+    Delete(getLeaf(root));
+}
+
+AVLNode getLeaf(AVLTree::AVLNode *&node) {
+    if (!node->isLeaf()) {
+        if (node->left = nullptr) {
+            node = node->left;
+            delete node;
+            AVLTree::getLeaf(root);
+        } else node = node->right;
+
+        getleaf
+
+                friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
+    }
