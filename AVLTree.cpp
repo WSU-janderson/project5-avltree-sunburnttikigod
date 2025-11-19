@@ -90,7 +90,7 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
 
     //if travelling node key is greater than lowKey add and higher than highKey
     if (ranger->key > lowKey && ranger->key < highKey) {
-        rangeList->push_back(ranger->value); //add it to the node list
+        rangeList->push_back(to_string(ranger->value)); //add it to the node list
     }
     //traversal logic
     if (ranger->key > lowKey) {
@@ -107,7 +107,7 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
  */
 
 std::optional<size_t> AVLTree::get(const std::string &key) const {
-    return (getRecursively(root, key);
+    return (getRecursively(root, key));
 }
 
 /*
@@ -269,7 +269,8 @@ void AVLTree::balanceNode(AVLNode *&node) {
     void rotateLeft(AVLNode *&node);
 
     void rotateRight(AVLNode *&node);
-            void operator=(const AVLTree &other)
+
+    void operator=(const AVLTree &other);
     {
     }
 
