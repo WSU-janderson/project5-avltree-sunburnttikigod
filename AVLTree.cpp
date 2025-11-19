@@ -75,8 +75,7 @@ bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t
     balanceNode(nodeIn);
 }
 
-
-std::vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
+vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
     vector<std::string> *rangeList = new vector<std::string>;
     rangingRecursively(root, lowKey, highKey, rangeList);
     return *rangeList;
@@ -91,7 +90,7 @@ void AVLTree::rangingRecursively(AVLNode *ranger,const std::string &lowKey,
 
     //if travelling node key is greater than lowKey add and higher than highKey
     if (ranger->key > lowKey && ranger->key < highKey) {
-        rangeList->push_back(AVLTree::AVLNode::ValueType value); //add it to the node list
+        rangeList->push_back(to_string(ranger->value));
     }
     //traversal logic
     if (ranger->key > lowKey) {
@@ -141,18 +140,27 @@ std::optional<size_t> AVLTree::getRecursively(AVLNode *currentNode,
     return getRecursively(currentNode->right, key);
 }
 
+/*
+ * size() function, returns the size of the tree
+ */
+
 size_t AVLTree::size() const {
     return this->keys().size();
 }
 
-//uses math.h log2(n) and ceil to round up to get the ideal max height of the tree
+/*
+ * uses math.h log2(n) and ceil to round up to get the ideal max height of the tree
+ * probably wont get used just wanted to try it out if i had time
+ */
 size_t AVLTree::getMaxBalancedHeight() {
     AVLTree::maxBalancedHeight = ceil(log2(size()));
     return maxBalancedHeight;
 }
 
-//but this was interesting in 2917 - 2920 some DR really
-//wanted credit for it, i didn't think Euler new C++ lol
+// INTERESTING FIND ... I DON'T KNOW WHAT DR 568 MEANS....
+// but this was interesting in 2917 - 2920 some DR really
+// wanted credit for it, i didn't think Euler new C++ lol
+
 /*   ------
 // DR 568.          <-this line specifically
 constexpr _Float32
@@ -161,15 +169,17 @@ log2(_Float32 __x)
 *  ------
 */
 
+/* contans() function returns a boolean value
+ * true manes key exists in the tree
+ * false means the key expresses its existential confoundedness in some distant orchard
+ */
 
 bool AVLTree::contains(const std::string &key) const {
-    return containerRecurse(root, key);
+    return containerRecurse(*root, key);
 }
 
-bool containerRecurse(const AVLNode& container, const std::string &key) {
-    if (!container->key == key) {
-        return false;
-    }
+bool containerRecurse(AVLTree::AVLNode* node, const std::string &key){
+
     // base case two found node return value
     if (container->key == key) {
         return true;
@@ -300,21 +310,21 @@ void AVLTree::balanceNode(AVLNode *&node) {
  * accordingly
 */
 
-int getBalance(AVLNode *&node) {
-    return (node->getHeight(node->left) - node->getHeight(node->right));
+int AVLTree::getBalance(AVLNode&* node) const{
+    return node->left->getHeight() - node->right->getHeight();
 }
 
-void rotateLeft(AVLNode *&node) {
+void AVLTree::rotateLeft(AVLNode *&node) {
     AVLNode *newRoot = node->right;
     node->right = newRoot->left;
-    newRoot->left = none;
+    newRoot->left = nullptr;
     node = newRoot;
 }
 
-void rotateRight(AVLNode *&node) {
+void AVLTree::rotateRight(AVLNode *&node) {
     AVLNode *newRoot = node->left;
     node->left = newRoot->right;
-    newRoot->right = none;
+    newRoot->right = nullptr;
     node = newRoot;
 }
 

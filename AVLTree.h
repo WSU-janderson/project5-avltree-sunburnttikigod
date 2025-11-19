@@ -44,6 +44,8 @@ protected:
         AVLNode *left;
         AVLNode *right;
 
+        std::string getValue() const;
+
         // 0, 1 or 2
         size_t numChildren() const;
 
@@ -122,6 +124,8 @@ private:
     size_t getMaxBalancedHeight();
 
     size_t getHeight() const;
+
+    std::string getValue() const;
 
     void operator=(const AVLTree &other);
 
