@@ -74,7 +74,7 @@ private:
     vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
 
     static void rangingRecursively(AVLNode *ranger, std::string &lowKey, const std::string &highKey,
-                                            vector<std::string> *&tranges);
+                                   vector<std::string> *&tranges);
 
     /*
      *  get + its recursive helper declarations

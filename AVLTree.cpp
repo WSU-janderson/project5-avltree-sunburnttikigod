@@ -81,23 +81,21 @@ vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::str
 }
 
 void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
-             const std::string &highKey, vector<std::string> *&rangeList) {
-
+                                 const std::string &highKey, vector<std::string> *&rangeList) {
     //base case -> if it's at the end of the branch !//HOPPING_NODE_NAME// then return
     if (!ranger) {
         return;
-    }        //if key is greater than fall right
+    } //if key is greater than fall right
 
     //if travelling node key is greater than lowKey add and higher than highKey
     if (ranger->key > lowKey && ranger->key < highKey) {
-        rangeList->push_back(ranger->value);      //add it to the node list
+        rangeList->push_back(ranger->value); //add it to the node list
     }
     //traversal logic
     if (ranger->key > lowKey) {
-        rangingRecursively(ranger->left,lowKey, highKey, rangeList);
-    }
-    else if (ranger->key < highKey) {
-        rangingRecursively(ranger->left,lowKey, highKey, rangeList);
+        rangingRecursively(ranger->left, lowKey, highKey, rangeList);
+    } else if (ranger->key < highKey) {
+        rangingRecursively(ranger->left, lowKey, highKey, rangeList);
     }
 }
 
@@ -125,13 +123,13 @@ std::optional<size_t> AVLTree::get(const std::string &key) const {
 */
 
 std::optional<size_t> AVLTree::getRecursively(AVLNode *currentNode,
-    const std::string &key) const {
+                                              const std::string &key) const {
     //base case one end of line not found
     if (!currentNode) {
         return nullopt;
     }
     // base case two found node return value
-    if (currentNode->key == key){
+    if (currentNode->key == key) {
         return currentNode->value;
     }
     // not found continue tree traversal
@@ -234,22 +232,14 @@ void AVLTree::balanceNode(AVLNode *&node) {
     int balance = getBalance(node);
     AVLNode *highestNode;
 
-    //this serves as the search function, holding on to the pointer for the most out of balance node (highest)
-    !node->isLeaf()
-        ? (node->getHeight() > highestNode->getHeight()
-               ? highestNode = node
-               : (node->right ? node = node->right : node = node->left))
-        : els
-    else
-    if () {
-        //
-        //current!=lastRemovedNode ?
-        //      lastRemovedNode = current
-        //      insert(remove(lastRemovedNode) : insert(remove(N;
-    }
 
-    int
-    void operator=(const AVLTree &other)
+
+    int getBalance(AVLNode *&node) const;
+
+    void rotateLeft(AVLNode *&node);
+
+    void rotateRight(AVLNode *&node);
+            void operator=(const AVLTree &other)
     {
     }
 
