@@ -26,51 +26,129 @@
 #include <string>
 #include <vector>
 #include <optional>
+/*My biggest hold up here was trying to figure out the recursive logic,
+ *not the base case, but rather the initial check and creation of my tree and
+ *travesal node I finally think i found the structure that works, did some rucursion practice
+ *on coding bat, and remembered what one of the kids asked in class about
+ *using a helper function for the recursion.  so I will verify my traveler and
+ *create/assign if needed then isolate the recursion to it's own function, so
+ *I don't have to worry about 'stacking' nodes
+ *
+ */
 
 bool AVLTree::insert(const std::string &key, size_t value) {
-    AVLNode* nodeToInsert = new AVLNode(std::string key*&, value*&);
+    // check's for root nodes existence / contents not assigned
+    // this is for the first value in the tree
+    if (!root) {
+        root = new AVLNode(key, value); // assign root's key/value
+        return true; //return type bool - successful insert = true
+    }
+    recursivelyInsert(root, key, value);
 }
 
-vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
-{}
-
-std::optional<size_t> AVLTree::get(const std::string &key) {
-    //key in hand 🎶🎶skip the the node my darling🎵🎵
-
-
-        AVLNode* hoppyNode = AVLTree::root;
-        ValueType nodeValue = hoppyNode->value;
-
-        (hoppyNode->key != key && !hoppyNode->isLeaf() ?
-            (key < hoppyNode->key ?
-                (hoppyNode->left ? hoppyNode = hoppyNode->left : nodeValue = nullopt)
-                : (hoppyNode->right ? hoppyNode = hoppyNode->right : nodeValue = nullopt))
-            : hoppyNode->key == key ? nodeValue = hoppyNode->value : nodeValue = nullopt);
-
-        if (nodeValue != nullptr){
-            return nodeValue;
-        }else get(key);
+bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value) {
+    //Since the other function takes care of the initial value situation
+    //this one can headline with the base case
+    if (!nodeIn) {
+        //if node is null make new node and assign key&value
+        nodeIn = new AVLNode(key, value);
+        return true; //return true
     }
+    //if key is less than, fall left
+    if (key < nodeIn->key) {
+        recursivelyInsert(nodeIn->left, key, value);
+    }
+    //if key is greater than fall right
+    else if (key > nodeIn->key) {
+        recursivelyInsert(nodeIn->left, key, value);
+    }
+    // This means theres a dupe so return false
+    else {
+        nodeIn->value = value;
+        return false;
+    }
+    keyList.push_back(key);
+    balanceNode(nodeIn);
+}
+
+//now to redo this mess with the same technique i used with insert
+// i guess like a init and a recurse function
+
+vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
+    vector<std::string> *rangeList = new vector<std::string>;
+    rangingRecursively(root, lowKey, highKey, rangeList);
+    return *rangeList;
+}
+
+void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
+             const std::string &highKey, vector<std::string> *&rangeList) {
+
+    //base case -> if it's at the end of the branch !//HOPPING_NODE_NAME// then return
+    if (!ranger) {
+        return;
+    }        //if key is greater than fall right
+
+    //if travelling node key is greater than lowKey add and higher than highKey
+    if (ranger->key > lowKey && ranger->key < highKey) {
+        rangeList->push_back(ranger->value);      //add it to the node list
+    }
+    //traversal logic
+    if (ranger->key < lowKey) {
+        rangingRecursively(ranger->left,lowKey, highKey, rangeList);
+    }
+    else if (ranger->key < highKey) {
+        rangingRecursively(ranger->left,lowKey, highKey, rangeList);
+    }
+}
+
+
+std::optional<size_t> AVLTree::get(const std::string &key) const {
+    //key in hand 🎶🎶skip the the node my darling🎵🎵
+    if (AVLNode *current = root; current == nullptr) {
+        current = root;
+    } else {
+        if (current->isLeaf()) {
+            return nullopt;
+        }
+        if (current->key == key) {
+            return current->value;
+        } else if (key < current->key && current->left != nullptr) {
+            current = current->left;
+            get(&key);
+        } else if (key > current->key && current->right != nullptr) {
+            current = current->right;
+            get(&key);
+        } else {
+            return nullopt;
+        }
+    }
+}
+
 
 size_t AVLTree::size() const {
     return this->keys().size();
 }
+
 //uses math.h log2(n) and ceil to round up to get the ideal max height of the tree
-size_t AVLTree::getMaxBalancedHeight(){
-    AVLTree::maxBalancedHeight = ceil(log2(size()));;  //line 2394 of cmath.h, because it's built in
-    return maxBalancedHeight;                               //but this was interesting in 2917 - 2920 some DR really
-}                                                           //wanted credit for it, i didn't think Euler new C++ lol
-                                                            /*   ------
-                                                            // DR 568.          <-this line specifically
-                                                            constexpr _Float32
-                                                            log2(_Float32 __x)
-                                                            { return __builtin_log2f(__x); }
-                                                            *  ------
-                                                            */
+size_t AVLTree::getMaxBalancedHeight() {
+    AVLTree::maxBalancedHeight = ceil(log2(size()));
+    return maxBalancedHeight;
+}
+
+//but this was interesting in 2917 - 2920 some DR really
+//wanted credit for it, i didn't think Euler new C++ lol
+/*   ------
+// DR 568.          <-this line specifically
+constexpr _Float32
+log2(_Float32 __x)
+{ return __builtin_log2f(__x); }
+*  ------
+*/
 
 size_t &AVLTree::operator[](const std::string &key);
 
-bool AVLTree::contains(const std::string &key) const{}
+bool AVLTree::contains(const std::string &key) const {
+}
 
 size_t AVLTree::AVLNode::numChildren() const {
     return (this->isLeaf() ? 0 : (this->right && this->left) ? 2 : 1);
@@ -118,12 +196,12 @@ bool AVLTree::removeNode(AVLNode *&current) {
         std::string newKey = smallestInRight->key;
         int newValue = smallestInRight->value;
         remove(root, smallestInRight->key); // delete this one
-                //remove will start the thread from root with 'smallest in Right' key in hand
-                //hop down ask is greater or less than each node and respond accordingly left or right,
-                //to my understanding, return false if never found, so is removeNode supposed to be a
-                //public function with remove used under the hood as a privbate function
-                //here or should i just ignore those details, also with the vector representation available to
-                //us ...nvm
+        //remove will start the thread from root with 'smallest in Right' key in hand
+        //hop down ask is greater or less than each node and respond accordingly left or right,
+        //to my understanding, return false if never found, so is removeNode supposed to be a
+        //public function with remove used under the hood as a privbate function
+        //here or should i just ignore those details, also with the vector representation available to
+        //us ...nvm
         current->key = newKey;
         current->value = newValue;
 
@@ -165,7 +243,9 @@ void AVLTree::balanceNode(AVLNode *&node) {
     }
 
 
-    void operator=(const AVLTree &other);
+    void operator=(const AVLTree &other)
+    {
+    }
 
     ~AVLTree();
 

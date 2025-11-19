@@ -60,6 +60,11 @@ private:
     vector<KeyType> keyList;
     size_t maxBalancedHeight;
 
+    bool AVLTree::insert(const std::string &key, size_t value);
+    bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value);
+    vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+
+    static void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey, const std::string &highKey, vector<std::string> *&tranges);
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode *&current, KeyType key);
@@ -70,9 +75,9 @@ private:
     // You will implement this, but it is needed for removeNode()
     void balanceNode(AVLNode *&node);
 
-    bool AVLTree::insert(const std::string &key, size_t value);
 
-    vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+
+
 
     std::optional<size_t> AVLTree::get(const std::string &key) const;
 
