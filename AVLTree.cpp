@@ -212,13 +212,7 @@ bool AVLTree::removeNode(AVLNode *&current) {
         }
         std::string newKey = smallestInRight->key;
         int newValue = smallestInRight->value;
-        remove(root, smallestInRight->key); // delete this one
-        //remove will start the thread from root with 'smallest in Right' key in hand
-        //hop down ask is greater or less than each node and respond accordingly left or right,
-        //to my understanding, return false if never found, so is removeNode supposed to be a
-        //public function with remove used under the hood as a privbate function
-        //here or should i just ignore those details, also with the vector representation available to
-        //us ...nvm
+        remove(root, smallestInRight->key);
         current->key = newKey;
         current->value = newValue;
 
@@ -237,12 +231,7 @@ bool AVLTree::removeNode(AVLNode *&current) {
 }*/
 
 void AVLTree::balanceNode(AVLNode *&node) {
-    //Goin fishin
-    //I keep thinking that if i could use one complete traversal to count the size of the tree, I could then set a goal
-    //height for each branch by using a root 2 on the size to get the target height. following this any branch that is
-    //larger than the target you stop at the target height for the branch and go fishing until you've got nothing left
-    //to hook (null pointer) using inorder to count (left to right) and postorder(right to left) so it's one natural
-    //traversal to balance, remove and insert as your operations for balancing.
+    int balance = getBalance(node);
     AVLNode *highestNode;
 
     //this serves as the search function, holding on to the pointer for the most out of balance node (highest)
@@ -259,7 +248,7 @@ void AVLTree::balanceNode(AVLNode *&node) {
         //      insert(remove(lastRemovedNode) : insert(remove(N;
     }
 
-
+    int
     void operator=(const AVLTree &other)
     {
     }

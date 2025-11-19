@@ -61,11 +61,39 @@ private:
     vector<KeyType> keyList;
     size_t maxBalancedHeight;
 
-    bool AVLTree::insert(const std::string &key, size_t value);
-    bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value);
-    vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) const;
+    /*
+     *  insert + its recursive helper declarations
+    */
+    bool insert(const std::string &key, size_t value);
 
-    static void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey, const std::string &highKey, vector<std::string> *&tranges);
+    bool recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value);
+
+    /*
+     *  findRange + its recursive helper declarations
+    */
+    vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
+
+    static void rangingRecursively(AVLNode *ranger, std::string &lowKey, const std::string &highKey,
+                                            vector<std::string> *&tranges);
+
+    /*
+     *  get + its recursive helper declarations
+    */
+    std::optional<size_t> get(const std::string &key) const;
+
+    std::optional<size_t> getRecursively(AVLNode *currentNode, const std::string &key) const;
+
+    /*
+     *  balancing function declarations
+    */
+    void balanceNode(AVLNode *&node);
+
+    int getBalance(AVLNode *&node) const;
+
+    void rotateLeft(AVLNode *&node);
+
+    void rotateRight(AVLNode *&node);
+
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode *&current, KeyType key);
@@ -73,24 +101,9 @@ private:
     // removeNode contains the logic for actually removing a node based on the numebr of children
     bool removeNode(AVLNode *&current);
 
-    // You will implement this, but it is needed for removeNode()
-    void balanceNode(AVLNode *&node);
-
-
-
-
-
-    std::optional<size_t> AVLTree::get(const std::string &key) const;
-
-    size_t getRecursively(AVLNode * right) const;
-
     size_t &AVLTree::operator[](const std::string &key);
 
-    bool AVLTree::contains(const std::string &key) const;
-
-    std::optional<size_t> AVLTree::get(const std::string &key) const;
-
-    std::optional<size_t> AVLTree::getRecursively(AVLNode* currentNode, const std::string &key) const;
+    bool contains(const std::string &key) const;
 
     vector<KeyType> keys() const;
 
