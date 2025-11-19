@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+
 /*My biggest hold up here was trying to figure out the recursive logic,
  *not the base case, but rather the initial check and creation of my tree and
  *travesal node I finally think i found the structure that works, did some rucursion practice
@@ -35,6 +36,9 @@
  *I don't have to worry about 'stacking' nodes
  *
  */
+
+
+
 
 bool AVLTree::insert(const std::string &key, size_t value) {
     // check's for root nodes existence / contents not assigned
@@ -71,25 +75,23 @@ bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t
     balanceNode(nodeIn);
 }
 
-//now to redo this mess with the same technique i used with insert
-// i guess like a init and a recurse function
 
-vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
+std::vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
     vector<std::string> *rangeList = new vector<std::string>;
     rangingRecursively(root, lowKey, highKey, rangeList);
     return *rangeList;
 }
 
-void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
+void AVLTree::rangingRecursively(AVLNode *ranger,const std::string &lowKey,
                                  const std::string &highKey, vector<std::string> *&rangeList) {
     //base case -> if it's at the end of the branch !//HOPPING_NODE_NAME// then return
     if (!ranger) {
         return;
-    } //if key is greater than fall right
+    } //if key is greater then fall right
 
     //if travelling node key is greater than lowKey add and higher than highKey
     if (ranger->key > lowKey && ranger->key < highKey) {
-        rangeList->push_back(ranger->value); //add it to the node list
+        rangeList->push_back(AVLTree::AVLNode::ValueType value); //add it to the node list
     }
     //traversal logic
     if (ranger->key > lowKey) {
@@ -106,7 +108,7 @@ void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
  */
 
 std::optional<size_t> AVLTree::get(const std::string &key) const {
-    return (getRecursively(root, key);
+    return (getRecursively(root, key));
 }
 
 /*
@@ -124,7 +126,7 @@ std::optional<size_t> AVLTree::get(const std::string &key) const {
 
 std::optional<size_t> AVLTree::getRecursively(AVLNode *currentNode,
                                               const std::string &key) const {
-    //base case one end of line not found
+    //base case one end of tree/not found
     if (!currentNode) {
         return nullopt;
     }
@@ -138,7 +140,6 @@ std::optional<size_t> AVLTree::getRecursively(AVLNode *currentNode,
     }
     return getRecursively(currentNode->right, key);
 }
-
 
 size_t AVLTree::size() const {
     return this->keys().size();
@@ -160,9 +161,24 @@ log2(_Float32 __x)
 *  ------
 */
 
-size_t &AVLTree::operator[](const std::string &key);
 
 bool AVLTree::contains(const std::string &key) const {
+    return containerRecurse(root, key);
+}
+
+bool containerRecurse(const AVLNode& container, const std::string &key) {
+    if (!container->key == key) {
+        return false;
+    }
+    // base case two found node return value
+    if (container->key == key) {
+        return true;
+    }
+    // not found continue tree traversal
+    if (key < container->key) {
+        return containerRecurse(container->left, key);
+    }
+    return containerRecurse(container->right, key);
 }
 
 size_t AVLTree::AVLNode::numChildren() const {
@@ -225,9 +241,9 @@ bool AVLTree::removeNode(AVLNode *&current) {
 }
 
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
-
     return false;
 }
+
 /*
  *Taken from AVL slides:
 MM__________WW___________MM________WW______MM________WW
@@ -245,34 +261,69 @@ Author: Dr. James Anderson
  *          / ↱\(3) ↓     ✓✓✓✓(2)✓✓✓✓
  *          \ ↑ /   ↓    ✓✓✓✓/✓✓✓\✓✓✓✓
  *           ¿(2) ← ↵  ✓✓✓✓(1)✓✓✓(3)✓✓✓✓
- *            /       ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+ *            /       ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
  *          (1)
 */
-
-
 
 void AVLTree::balanceNode(AVLNode *&node) {
     int balance = getBalance(node);
 
+    //if the left subtree is longer than the right
+    // perform a right rotation of current node after hooking
+    // the left child, if the left child's balance is
+    // greater than zero rotate left
     if (balance > 1) {
-        if (getBalance(node->left)>0) {                 //
+        if (getBalance(node->left) > 0) {
+            //
             rotateLeft(node->left); //rotate left child left
         }
         rotateRight(node);
     }
-
-
-
-    int getBalance(AVLNode *&node) const;
-
-    void rotateLeft(AVLNode *&node);
-
-    void rotateRight(AVLNode *&node);
-            void operator=(const AVLTree &other)
-    {
+    //if the left subtree is longer than the right
+    // perform a right rotation of current node after hooking
+    // the left child, if the left child's balance is
+    // greater than zero rotate left
+    else if (balance < -1) {
+        if (getBalance(node->right) > 0) {
+            rotateRight(node->right); //rotate right child right
+        }
+        rotateLeft(node);
     }
 
-    ~AVLTree();
-
-    friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree);
+    node->height = node->getHeight();
 }
+
+/*
+ * helper Functions for rotations and balancing
+ * getBalance returns an int representing the balance of the tree
+ * rotate left has a check for double rotations and sets the pointers of the other nodes
+ * accordingly
+*/
+
+int getBalance(AVLNode *&node) {
+    return (node->getHeight(node->left) - node->getHeight(node->right));
+}
+
+void rotateLeft(AVLNode *&node) {
+    AVLNode *newRoot = node->right;
+    node->right = newRoot->left;
+    newRoot->left = none;
+    node = newRoot;
+}
+
+void rotateRight(AVLNode *&node) {
+    AVLNode *newRoot = node->left;
+    node->left = newRoot->right;
+    newRoot->right = none;
+    node = newRoot;
+}
+
+void operator=(const AVLTree &other){
+
+}
+
+~AVLTree();
+
+friend std::ostream &operator<<(ostream &os, const AVLTree &avlTree) {
+}
+};

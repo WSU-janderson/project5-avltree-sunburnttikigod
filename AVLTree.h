@@ -68,13 +68,15 @@ private:
 
     bool recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value);
 
+    vector<std::string> findRange(const std::string &lowKey, const std::string &highKey);
+
     /*
      *  findRange + its recursive helper declarations
     */
-    vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
+    std::vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
 
-    static void rangingRecursively(AVLNode *ranger, std::string &lowKey, const std::string &highKey,
-                                   vector<std::string> *&tranges);
+    void rangingRecursively(AVLNode *ranger,const std::string &lowKey,
+                                     const std::string &highKey, vector<std::string> *&rangeList);
 
     /*
      *  get + its recursive helper declarations
@@ -101,13 +103,19 @@ private:
     // removeNode contains the logic for actually removing a node based on the numebr of children
     bool removeNode(AVLNode *&current);
 
-    size_t &AVLTree::operator[](const std::string &key);
+    // The bracket operator overload
+
+    size_t operator[](const std::string &key);
+
+    /*
+     * contains and it's recursion function
+    */
 
     bool contains(const std::string &key) const;
 
-    vector<KeyType> keys() const;
+    bool containerRecurse(const AVLNode& container,const std::string &key)const;
 
-    AVLTree(const AVLTree &other);
+    vector<KeyType> keys() const;
 
     size_t size() const;
 
