@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <iostream>
 #include <optional>
 
 using namespace std;
@@ -33,6 +34,9 @@ class AVLTree {
 public:
     using KeyType = std::string;
     using ValueType = size_t;
+
+
+
 
 protected:
     class AVLNode {
@@ -62,7 +66,20 @@ private:
     AVLNode *root;
     vector<KeyType> keyList;
     size_t maxBalancedHeight;
+    size_t size() const;
 
+    size_t getMaxBalancedHeight();
+
+    size_t getHeight() const;
+
+    std::string getValue() const;
+    void balanceNode(AVLNode *&node);
+
+    int getBalance(AVLNode *&node) const;
+
+    static void rotateLeft(AVLNode *&node);
+
+    static void rotateRight(AVLNode *&node);
     /*
      *  insert + its recursive helper declarations
     */
@@ -70,15 +87,14 @@ private:
 
     bool recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t value);
 
-    vector<std::string> findRange(const std::string &lowKey, const std::string &highKey);
-
     /*
      *  findRange + its recursive helper declarations
     */
-    std::vector<std::string> findRange(const std::string &lowKey, const std::string &highKey) const;
 
-    void rangingRecursively(AVLNode *ranger, const std::string &lowKey,
-                            const std::string &highKey, vector<std::string> *&rangeList);
+    vector<std::string> findRange( const std::string& lowKey, const std::string& highKey) const;
+
+    static void rangingRecursively(AVLNode *ranger, std::string &lowKey,
+                                   const std::string &highKey, vector<std::string> *&rangeList);
 
     /*
      *  get + its recursive helper declarations
@@ -90,16 +106,11 @@ private:
     /*
      *  balancing function declarations
     */
-    void balanceNode(AVLNode *&node);
 
-    int getBalance(AVLNode *&node) const;
+    bool contains(const std::string &key) const;
 
-    void rotateLeft(AVLNode *&node);
+    bool containerRecurse(const AVLNode &container, const std::string &key) const;
 
-    void rotateRight(AVLNode *&node);
-
-    /* Helper methods for remove */
-    // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode *&current, KeyType key);
 
     // removeNode contains the logic for actually removing a node based on the numebr of children
@@ -113,21 +124,39 @@ private:
      * contains and it's recursion function
     */
 
-    bool contains(const std::string &key) const;
 
-    bool containerRecurse(const AVLNode &container, const std::string &key) const;
 
     vector<KeyType> keys() const;
 
-    size_t size() const;
 
-    size_t getMaxBalancedHeight();
+    void operator=(const AVLTree &other) {
+        if (this == &other) {
+            cout << "Structure already in place with that name and values.";
+        }
+        AVLTree* newTree = new AVLTree;
+        newTree->root = copyData(other.root);
+    }
 
-    size_t getHeight() const;
+    AVLNode* copyData(AVLNode* node) {
+        if (!node) {
+            return nullptr;
+        }
+        AVLNode* newNode = new AVLNode(node->key, node->value);
 
-    std::string getValue() const;
+        newNode->left = copyData(node->left);
+        newNode->right = copyData(node->right);
+        newNode->height = std::max(getHeight(newNode->left), getHeight(newNode->right))+1;
 
-    void operator=(const AVLTree &other);
+        return newNode;
+    }
+    void AVLTree::clearTree(AVLNode* node) {
+        if (!node) {
+            return;
+        }
+    clearTree(node->left);
+        clearTree(node->right);
+        delete node;
+    }
 
     ~AVLTree();
 

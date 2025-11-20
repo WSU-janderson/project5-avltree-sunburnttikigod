@@ -79,13 +79,13 @@ bool AVLTree::recursivelyInsert(AVLNode *&nodeIn, const std::string &key, size_t
  */
 
 
-vector<std::string> AVLTree::findRange(const std::string &lowKey, const std::string &highKey) {
+vector<std::string> AVLTree::findRange( const std::string& lowKey,const std::string& highKey) const {
     vector<std::string> *rangeList = new vector<std::string>;
     rangingRecursively(root, lowKey, highKey, rangeList);
     return *rangeList;
 }
 
-void rangingRecursively(AVLNode *ranger, std::string &lowKey,
+void AVLTree::rangingRecursively(AVLNode *ranger, std::string &lowKey,
                                  const std::string &highKey, vector<std::string> *&rangeList) {
     //base case -> if it's at the end of the branch !//HOPPING_NODE_NAME// then return
 
@@ -131,8 +131,8 @@ std::optional<size_t> AVLTree::get(const std::string &key) const {
 /*
  * getRecursively is called as the recursive function for 'get'
  * it will return 'nullopt' if a matching 'key' is not found
- *    1.  first is one basecase => if the current node is null - return nullopt
- *      * nullopt is an option only available when the return is std::optional
+ *    1.  First basecase => if the current node is null - return 'nullopt'
+ *      * 'nullopt' is an option only available when the return is std::optional
  *      * 'optional' is included at the beginning
  *    2. next is the second base case => the key was found - the currentNode returns it's 'value'
  *    3. then if current node exists and is not empty, tree traversal logic
@@ -179,11 +179,13 @@ log2(_Float32 __x)
 *  ------
 */
 
-size_t &AVLTree::operator[](const std::string &key);
+size_t AVLTree::operator[](const std::string &key)
 
 bool AVLTree::contains(const std::string &key) const {
-    findRange(key, key);
+    std::string* keySword;
+    return (containing(keySword));
 }
+bool containing(AVLNode*& keyMaster, const std::string &key){
 
 size_t AVLTree::AVLNode::numChildren() const {
     return (this->isLeaf() ? 0 : (this->right && this->left) ? 2 : 1);
@@ -201,7 +203,7 @@ size_t AVLTree::AVLNode::getHeight() const {
 vector<std::string> AVLTree::keys() const {
     return this->keyList;
 }
-
+/*
 bool AVLTree::removeNode(AVLNode *&current) {
     if (!current) {
         return false;
@@ -243,7 +245,7 @@ bool AVLTree::removeNode(AVLNode *&current) {
 
     return true;
 }
-
+*/
 bool AVLTree::remove(AVLNode *&current, KeyType key) {
     return false;
 }
