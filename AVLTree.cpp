@@ -19,7 +19,15 @@
    * 01001101 01110101 01110011 01110100
    * AVLTree.cpp
 ****/
+/*
+init commit and push
+my code, before mysterious shitty code was  maliciously injected curiously between the commit branched and the time i got home, luckily my laptop was not updated since the proffessors outrageous display of aggression , when he suspiciously showed the exact code that suddenly manifested in my code when i returned home from class on the 19th
+very interesting indeed
 
+network logs are very telling as well
+
+
+*/
 #include "AVLTree.h"
 
 #include <memory>
