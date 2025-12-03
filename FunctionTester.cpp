@@ -20,6 +20,14 @@
 
 #include "FunctionTester.h"
 #include "AVLTree.h"
+#include "T"
+int main()
+{
+ size_t testTree;
+ testTree*& = new AVLTree;
+
+}
+#include "AVLTree.h"
 #include <iostream>
 #include <string>
 #include <ctime>
